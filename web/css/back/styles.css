@@ -1,0 +1,78 @@
+body {margin: 0; padding: 50px;}
+
+.g-mid{
+	margin: 0 auto;
+}
+
+.m-pagination{
+	position: relative;
+	top: 10px;
+	list-style-type: none;
+	height: 35px;
+}
+.m-pagination li{
+	display: inline-block;
+	float: left;
+}
+.m-pagination li a{
+	position: relative;
+	padding: 7px 12px;
+	border: 1px solid #ddd;
+	font-size: 16px;
+	text-align: center;
+}
+.m-pagination li a{
+	text-decoration: none;
+}
+.m-pagination li.disable a{
+	color: black;
+}
+
+.m-list{
+	border-color: #FFFFFF;
+	width: 100%;
+}
+
+.m-list th, .m-list td,
+ .addtable td{
+	padding: 10px;
+	border-color: #ddd;
+}
+
+.m-list th,
+ .m-list th{
+	background-color: #dff0d8;	
+}
+
+.m-list td{
+	height: 50px;
+}
+
+.m-category-add, .m-category-edit,
+ .m-property-add, .m-property-edit{
+	width: 500px;
+	margin: 0 auto;
+}
+
+.addtable #name{
+	width: 300px;
+	padding: 5px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+
+.m-category-edit, .m-property-edit{
+	margin: 150px auto;
+}
+
+.m-property-title{
+	height: 60px;
+	padding: 20px;
+	list-style-type: none;
+	font-size: 18px;
+	background-color: #DCDCDC;
+}
+.m-property-title li{
+	float: left;
+	margin-right: 10px;
+}
