@@ -104,20 +104,6 @@ public class PropertyDAO {
 		}
 	}
 
-	public void clear(int cid) {
-		try {
-			String sql = "DELETE FROM property WHERE cid = ?";
-			Connection c = DBUtil.getConnection();
-			PreparedStatement ps = c.prepareStatement(sql);
-			ps.setInt(1, cid);
-
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public List<Property> list(int cid) {
 		return list(cid, 0, Short.MAX_VALUE);
 	}
