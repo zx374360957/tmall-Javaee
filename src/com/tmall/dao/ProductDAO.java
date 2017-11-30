@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.tmall.beans.Category;
 import com.tmall.beans.Product;
@@ -13,12 +15,13 @@ import com.tmall.util.DateUtil;
 
 public class ProductDAO {
 
-	public int getTotal() {
+	public int getTotal(int cid) {
 		int total = 0;
-		String sql = "SELECT count(*) FROM product";
+		String sql = "SELECT count(*) FROM product WHERE cid = ?";
 		try {
 			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, cid);
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -103,8 +106,8 @@ public class ProductDAO {
 		}
 	}
 
-	public void dalete(int id) {
-		String sql = "DALETE FROM product WHERE id = ?";
+	public void delete(int id) {
+		String sql = "DELETE FROM product WHERE id = ?";
 		try {
 			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
@@ -117,4 +120,41 @@ public class ProductDAO {
 			e.printStackTrace();
 		}
 	}
+
+	public List<Product> list(int cid) {
+		return list(cid, 0, Short.MAX_VALUE);
+	}
+
+	public List<Product> list(int cid, int beg, int len) {
+		List<Product> ls = new ArrayList<Product>();
+		try {
+			String sql = "SELECT * FROM product WHERE cid=? LIMIT ?,?";
+			Connection c = DBUtil.getConnection();
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, cid);
+			ps.setInt(2, beg);
+			ps.setInt(3, len);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Product p = new Product();
+				p.setId(rs.getInt("id"));
+				p.setName(rs.getString("name"));
+				p.setSubTitle(rs.getString("subTitle"));
+				p.setOrignalPrice(rs.getFloat("orignalPrice"));
+				p.setPromotePrice(rs.getFloat("promotePrice"));
+				p.setStock(rs.getInt("stock"));
+				p.setCreateDate(DateUtil.t2d(rs.getTimestamp("createDate")));
+				Category cg = new CategoryDAO().get(rs.getInt("cid"));
+				p.setCategory(cg);
+
+				ls.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
+	}
+
 }
