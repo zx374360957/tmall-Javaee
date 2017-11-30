@@ -54,7 +54,7 @@ body {margin: 0; padding: 50px;}
 	margin: 0 auto;
 }
 
-.addtable #name{
+.addtable input[type="text"]{
 	width: 300px;
 	padding: 5px;
 	border: 1px solid #ddd;
@@ -65,14 +65,26 @@ body {margin: 0; padding: 50px;}
 	margin: 150px auto;
 }
 
-.m-property-title{
+.m-admin-title{
 	height: 60px;
 	padding: 20px;
 	list-style-type: none;
 	font-size: 18px;
 	background-color: #DCDCDC;
 }
-.m-property-title li{
+.m-admin-title li{
 	float: left;
 	margin-right: 10px;
+}
+
+.m-product-image{
+	
+}
+
+.m-product-preview{
+	
+}
+
+.m-product-details{
+	
 }
