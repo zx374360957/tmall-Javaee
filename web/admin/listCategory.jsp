@@ -32,7 +32,7 @@
 					<td><img height="40px" src="image/category/${c.id}.jpg" /></td>
 					<td>${c.name}</td>
 					<td><a href="admin_Property_list?cid=${c.id}"><span class="glyphicon glyphicon-th-list"></span></a></td>
-					<td><a href="#1"><span class="glyphicon glyphicon-shopping-cart"></span></a></td> 
+					<td><a href="admin_Product_list?cid=${c.id}"><span class="glyphicon glyphicon-shopping-cart"></span></a></td> 
 					<td>
 						<a href="admin_Category_edit?id=${c.id}"><span class="glyphicon glyphicon-edit"></span></a>
 					</td>
