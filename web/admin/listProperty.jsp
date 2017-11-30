@@ -9,10 +9,10 @@
 <title>属性管理</title>
 
 <div >
-	<ul class="m-property-title">
+	<ul class="m-admin-title">
 		<li><a href="admin_Category_list">所有分类 </a></li>
 		<li>/</li>
-		<li><a href=""> ${c.name}</a></li>
+		<li><a href="admin_Category_list"> ${c.name}</a></li>
 		<li>/</li>
 		<li> 属性管理</li>
 	</ul>
