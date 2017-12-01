@@ -15,7 +15,7 @@
 		</li>
 		<li>/</li>
 		<li>
-			<a href="admin_Category_list"> ${c.name}</a>
+			<a href="admin_Category_list">${c.name}</a>
 		</li>
 		<li>/</li>
 		<li>
@@ -31,22 +31,26 @@
 		<div class="panel panel-warning">
 			<div class="panel-heading">新增产品<span style="color: #ff0036;">预览</span>图片</div>
 			<div class="panel-body">
-				<table border="0" class="addtable">
+				<form class="submit1" method="post" action="admin_ProductImage_add" enctype="multipart/form-data">
+					<table border="0" class="addtable">
 					<tr>
 						<td>请选择本地图片 尺寸400X400 为佳</td>
+						<td><input id="type" name="type" type="hidden" value="single"/></td>
 					</tr>
 					<tr>
-						<td><input id="productpic" type="file" accept="image/*" name="filepath" /></td>
+						<td><input id="productpic1" type="file" accept="image/*" name="filepath" /></td>
+						<td><input id="pid" name="pid" type="hidden" value="${p.id}"/></td>
 					</tr>
 					<tr>
-						<td>
+						<td class="addButton">
 							<button id="submitButton" type="submit" class="btn btn-success">提交</button>
 						</td>
 					</tr>
-				</table>
+					</table>
+				</form>
 			</div>
 		</div>
-		<table border="1" class="addtable">
+		<table border="1" class="m-list">
 			<thead>
 				<tr>
 					<th>id</th>
@@ -55,15 +59,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:foreach items="${theSingleImages}" var="si">
+				<c:forEach items="${p.productSingleImages}" var="si">
 					<tr>
 						<td>${si.id}</td>
-						<td><img src="/tmall/image/product/${si.id}.jpg" alt="" /></td>
+						<td><img width="50px" height="50px" src="/tmall/image/product/${p.id}/${si.id}.jpg" alt="" /></td>
 						<td>
-							<a class="delete" href="#11"><span class="glyphicon glyphicon-trash"></span></a>
+							<a class="delete" href="admin_ProductImage_delete?id=${si.id}&pid=${p.id}"><span class="glyphicon glyphicon-trash"></span></a>
 						</td>
 					</tr>
-				</c:foreach>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>
@@ -71,22 +75,26 @@
 		<div class="panel panel-warning">
 			<div class="panel-heading">新增产品<span style="color: #ff0036;">详情</span>图片</div>
 			<div class="panel-body">
-				<table border="0" class="addtable">
+				<form class="submit2" method="post" action="admin_ProductImage_add" enctype="multipart/form-data">
+					<table border="0" class="addtable">
 					<tr>
-						<td>请选择本地图片 尺寸400X400 为佳</td>
+						<td>请选择本地图片 宽度800 为佳</td>
+						<td><input id="type" name="type" type="hidden" value="details"/></td>
 					</tr>
 					<tr>
-						<td><input id="productpic" type="file" accept="image/*" name="filepath" /></td>
+						<td><input id="productpic2" type="file" accept="image/*" name="filepath" /></td>
+						<td><input id="pid" name="pid" type="hidden" value="${p.id}"/></td>
 					</tr>
 					<tr>
-						<td>
+						<td class="addButton">
 							<button id="submitButton" type="submit" class="btn btn-success">提交</button>
 						</td>
 					</tr>
-				</table>
+					</table>
+				</form>
 			</div>
 		</div>
-		<table border="1" class="addtable">
+		<table border="1" class="m-list">
 			<thead>
 				<tr>
 					<th>id</th>
@@ -95,23 +103,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:foreach items="${theDeteailsImages}" var="si">
+				<c:forEach items="${p.productDetailsImages}" var="di">
 					<tr>
-						<td>${si.id}</td>
-						<td><img src="/tmall/image/product/${si.id}.jpg" alt="" /></td>
+						<td>${di.id}</td>
+						<td><img width="50px" height="50px" src="/tmall/image/product/${p.id}/${di.id}.jpg" alt="" /></td>
 						<td>
-							<a class="delete" href="#11"><span class="glyphicon glyphicon-trash"></span></a>
+							<a class="delete" href="admin_ProductImage_delete?id=${di.id}&pid=${p.id}"><span class="glyphicon glyphicon-trash"></span></a>
 						</td>
 					</tr>
-				</c:foreach>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>
 </div>
-</div>
-
-<div class="g-mid">
-	<%@ include file="../include/admin/adminPage.jsp" %>
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -141,8 +145,13 @@
 		$("#myModal").modal("show");
 		return false;
 	})
-	$("#submit").submit(function() {
-		if(checkEmpty("productpic", "产品图片"))
+	$(".submit1").submit(function() {
+		if(checkEmpty("productpic1", "产品图片"))
+			return false;
+		return true;
+	})
+	$(".submit2").submit(function() {
+		if(checkEmpty("productpic2", "产品图片"))
 			return false;
 		return true;
 	})

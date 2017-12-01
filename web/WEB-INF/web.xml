@@ -32,6 +32,16 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>ProductImageServlet</servlet-name>
+		<servlet-class>com.tmall.servlet.ProductImageServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>ProductImageServlet</servlet-name>
+		<url-pattern>/ProductImageServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>TestServlet</servlet-name>
 		<servlet-class>com.test.TestServlet</servlet-class>
 	</servlet>

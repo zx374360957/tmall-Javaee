@@ -116,4 +116,5 @@ public class ProductServlet extends BackServlet {
 
 		return "admin/listProduct.jsp";
 	}
+
 }

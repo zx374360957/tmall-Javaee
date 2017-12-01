@@ -76,7 +76,7 @@ public class ProductDAO {
 				product.setStock(rs.getInt("stock"));
 				Category category = new CategoryDAO().get(rs.getInt("cid"));
 				product.setCategory(category);
-				product.setCreateDate(DateUtil.t2d(rs.getTimestamp("createTime")));
+				product.setCreateDate(DateUtil.t2d(rs.getTimestamp("createDate")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

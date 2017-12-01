@@ -60,7 +60,9 @@ body {margin: 0; padding: 50px;}
 	border: 1px solid #ddd;
 	border-radius: 3px;
 }
-
+.addtable .addButton{
+	text-align: center;
+}
 .m-category-edit, .m-property-edit{
 	margin: 150px auto;
 }
@@ -78,13 +80,18 @@ body {margin: 0; padding: 50px;}
 }
 
 .m-product-image{
-	
+	width: 100%;
 }
 
+.m-product-preview, .m-product-details{
+	display: inline-block;
+	padding: 20px;
+	width: 500px;
+	float: left;
+}
 .m-product-preview{
-	
+	margin-left: 20%;
+	margin-right: 150px;
 }
-
 .m-product-details{
-	
 }

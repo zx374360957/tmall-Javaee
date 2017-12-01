@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.tmall.beans.Product;
 import com.tmall.beans.ProductImage;
 import com.tmall.util.DBUtil;
 
@@ -34,7 +37,7 @@ public class ProductImageDAO {
 			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, bean.getProduct().getId());
-			ps.setString(1, bean.getType());
+			ps.setString(2, bean.getType());
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
 
@@ -85,7 +88,7 @@ public class ProductImageDAO {
 		}
 	}
 
-	public void dalete(int id) {
+	public void delete(int id) {
 		String sql = "DELETE FROM productimage WHERE id = ?";
 		try {
 			Connection c = DBUtil.getConnection();
@@ -99,11 +102,36 @@ public class ProductImageDAO {
 		}
 	}
 
-	// public List<ProductImage> list(){
-	//
-	// }
-	// public List<ProductImage> list(int beg, int len){
-	//
-	// }
+	public List<ProductImage> list(int pid, String type) {
+		return list(pid, 0, Short.MAX_VALUE, type);
+
+	}
+
+	public List<ProductImage> list(int pid, int beg, int len, String type) {
+		List<ProductImage> ls = new ArrayList<ProductImage>();
+		try {
+			String sql = "SELECT * FROM productimage WHERE pid=? AND type=? LIMIT ?,?";
+			Connection c = DBUtil.getConnection();
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, pid);
+			ps.setString(2, type);
+			ps.setInt(3, beg);
+			ps.setInt(4, len);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ProductImage pi = new ProductImage();
+				pi.setId(rs.getInt("id"));
+				Product p = new ProductDAO().get(rs.getInt("pid"));
+				pi.setProduct(p);
+				pi.setType(rs.getString("type"));
+				ls.add(pi);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
+	}
 
 }
