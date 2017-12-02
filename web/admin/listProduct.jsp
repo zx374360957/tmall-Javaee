@@ -39,14 +39,14 @@
 			<c:forEach items="${theps}" var="p">
 			<tr>
 				<td>${p.id}</td>
-				<td><img src="/tmall/image/product/${p.id}.jpg" alt="" /></td>
+				<td><img width="50px" height="50px" src="/tmall/image/product/${p.id}/${p.firstProductImage.id}.jpg" alt="" /></td>
 				<td>${p.name}</td>
 				<td>${p.subTitle}</td>
 				<td>${p.orignalPrice}</td>
 				<td>${p.promotePrice}</td>
 				<td>${p.stock}</td>
 				<td><a href="admin_ProductImage_list?id=${p.id}"><span class="glyphicon glyphicon-picture"></span></a></td>
-				<td><a href="#1"><span class="glyphicon glyphicon-list"></span></a></td>
+				<td><a href="admin_PropertyValue_list?pid=${p.id}&cid=${param.cid}"><span class="glyphicon glyphicon-list"></span></a></td>
 				<td><a href="admin_Product_edit?cid=${param.cid}&id=${p.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
 				<td><a class="delete" href="admin_Product_delete?cid=${param.cid}&id=${p.id}"><span class="glyphicon glyphicon-trash"></span></a></td>
 			</tr>

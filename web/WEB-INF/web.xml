@@ -42,6 +42,16 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>PropertyValueServlet</servlet-name>
+		<servlet-class>com.tmall.servlet.PropertyValueServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>PropertyValueServlet</servlet-name>
+		<url-pattern>/PropertyValueServlet</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
 		<servlet-name>TestServlet</servlet-name>
 		<servlet-class>com.test.TestServlet</servlet-class>
 	</servlet>

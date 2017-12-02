@@ -14,8 +14,7 @@ import com.tmall.util.DBUtil;
 public class CategoryDAO {
 	public int getTotal() {
 		int total = 0;
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			Statement s = c.createStatement();
 			String sql = "SELECT count(*) FROM category";
 
@@ -30,9 +29,8 @@ public class CategoryDAO {
 	}
 
 	public void add(Category bean) {
-		try {
-			String sql = "INSERT INTO category(id, name) VALUES (null, ?)";
-			Connection c = DBUtil.getConnection();
+		String sql = "INSERT INTO category(id, name) VALUES (null, ?)";
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, bean.getName());
 
@@ -49,9 +47,8 @@ public class CategoryDAO {
 	}
 
 	public void update(Category bean) {
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "UPDATE category SET name = ? WHERE id = ?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 
 			ps.setString(1, bean.getName());
@@ -65,9 +62,8 @@ public class CategoryDAO {
 
 	public Category get(int id) {
 		Category category = null;
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "SELECT * FROM category WHERE id = ?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -85,9 +81,8 @@ public class CategoryDAO {
 	}
 
 	public void dalete(int id) {
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "DELETE FROM category WHERE id = ?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -104,9 +99,8 @@ public class CategoryDAO {
 
 	public List<Category> list(int beg, int len) {
 		List<Category> ls = new ArrayList<Category>();
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "SELECT * FROM category LIMIT ?,?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, beg);
 			ps.setInt(2, len);
@@ -123,10 +117,5 @@ public class CategoryDAO {
 		}
 
 		return ls;
-	}
-
-	public static void main(String[] args) {
-		CategoryDAO c = new CategoryDAO();
-		System.out.println(c.getTotal());
 	}
 }

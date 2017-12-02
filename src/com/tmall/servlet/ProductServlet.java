@@ -2,6 +2,7 @@ package com.tmall.servlet;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tmall.beans.Category;
 import com.tmall.beans.Product;
+import com.tmall.beans.ProductImage;
 import com.tmall.util.Page;
 
 @SuppressWarnings("serial")
@@ -107,7 +109,12 @@ public class ProductServlet extends BackServlet {
 		List<Product> ps = productDAO.list(cid, page.getBegin(), page.getSingleCount());
 		Category c = categoryDAO.get(cid);
 		int total = productDAO.getTotal(cid);
-
+		Iterator<Product> it = ps.iterator();
+		while (it.hasNext()) {
+			Product p = (Product) it.next();
+			ProductImage pi = productImageDAO.getOneImage(p.getId(), "single");
+			p.setFirstProductImage(pi);
+		}
 		page.setTotalCount(total);
 
 		request.setAttribute("theps", ps);

@@ -95,3 +95,11 @@ body {margin: 0; padding: 50px;}
 }
 .m-product-details{
 }
+
+.m-propertyValue-edit{
+	width: 800px;
+}
+
+.m-propertyValue-edit table td{
+	padding: 10px;
+}

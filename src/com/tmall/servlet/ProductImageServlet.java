@@ -90,7 +90,7 @@ public class ProductImageServlet extends BackServlet {
 		List<ProductImage> di = productImageDAO.list(id, "details");
 		p.setProductSingleImages(si);
 		p.setProductDetailsImages(di);
-		request.setAttribute("c", c);
+
 		request.setAttribute("p", p);
 
 		return "admin/listProductImage.jsp";

@@ -17,8 +17,7 @@ public class ReviewDAO {
 	public int getTotal(int pid) {
 		int total = 0;
 		String sql = "SELECT COUNT(*) FROM review WHERE pid = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, pid);
 
@@ -37,8 +36,7 @@ public class ReviewDAO {
 
 	public void add(Review bean) {
 		String sql = "INSERT INTO review(id, content, uid, pid, createDate)" + "VALUE (null, ?, ?, ?, ?)";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, bean.getContent());
 			ps.setInt(2, bean.getUser().getId());
@@ -59,8 +57,7 @@ public class ReviewDAO {
 
 	public void update(Review bean) {
 		String sql = "UPDATE review " + "SET conten = ?, uid = ?, pid = ?, createDate = ?" + "WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
 			ps.setString(1, bean.getContent());
@@ -78,8 +75,7 @@ public class ReviewDAO {
 
 	public void delete(int id) {
 		String sql = "DELETE FROM review WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -95,8 +91,7 @@ public class ReviewDAO {
 		Review bean = null;
 		String sql = "SELECT * FROM review WHERE id = ?";
 
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -123,8 +118,7 @@ public class ReviewDAO {
 	public List<Review> list(int pid, int beg, int len) {
 		List<Review> beans = new ArrayList<Review>();
 		String sql = "SELECT * FROM review WHERE pid = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, pid);
 

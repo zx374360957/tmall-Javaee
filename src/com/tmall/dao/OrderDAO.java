@@ -15,8 +15,7 @@ public class OrderDAO {
 	public int getTotal() {
 		int total = 0;
 		String sql = "SELECT COUNT(*) FROM order";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
 			ResultSet rs = ps.executeQuery();
@@ -36,8 +35,7 @@ public class OrderDAO {
 		String sql = "INSERT INTO order(id, orderCode, address, post, receiver, mobile,"
 				+ " userMessage, createDate, payDate, deliveryDate, confirmDate, uid, status)"
 				+ "VALUE (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, bean.getOrderCode());
 			ps.setString(2, bean.getAddress());
@@ -68,8 +66,7 @@ public class OrderDAO {
 		String sql = "UPDATE propertyvalue " + "SET orderCode = ?, address = ?, post = ?, receiver = ?, mobile = ?,"
 				+ "userMessage = ?, createDate = ?, payDate = ?, deliveryDate = ?,"
 				+ " confirmDate = ?, uid = ?, status = ?" + "WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setString(1, bean.getOrderCode());
 			ps.setString(2, bean.getAddress());
@@ -94,8 +91,7 @@ public class OrderDAO {
 
 	public void delete(int id) {
 		String sql = "DELETE FROM order WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -111,8 +107,7 @@ public class OrderDAO {
 		Order bean = null;
 		String sql = "SELECT * FROM order WHERE id = ?";
 
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 

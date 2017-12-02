@@ -17,8 +17,7 @@ public class ProductImageDAO {
 	public int getTotal() {
 		int total = 0;
 		String sql = "SELECT count(*) FROM productimage";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
 			ResultSet rs = ps.executeQuery();
@@ -33,8 +32,7 @@ public class ProductImageDAO {
 
 	public void add(ProductImage bean) {
 		String sql = "INSERT INTO productimage(id, pid, type) VALUE(null, ?, ?)";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, bean.getProduct().getId());
 			ps.setString(2, bean.getType());
@@ -52,8 +50,7 @@ public class ProductImageDAO {
 	public ProductImage get(int id) {
 		ProductImage bean = null;
 		String sql = "SELECT * FROM productimage WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -74,8 +71,7 @@ public class ProductImageDAO {
 
 	public void update(ProductImage bean) {
 		String sql = "UPDATE productimage SET pid = ?, type = ? WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, bean.getProduct().getId());
 			ps.setString(2, bean.getType());
@@ -90,8 +86,7 @@ public class ProductImageDAO {
 
 	public void delete(int id) {
 		String sql = "DELETE FROM productimage WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -109,9 +104,8 @@ public class ProductImageDAO {
 
 	public List<ProductImage> list(int pid, int beg, int len, String type) {
 		List<ProductImage> ls = new ArrayList<ProductImage>();
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "SELECT * FROM productimage WHERE pid=? AND type=? LIMIT ?,?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, pid);
 			ps.setString(2, type);
@@ -132,6 +126,14 @@ public class ProductImageDAO {
 		}
 
 		return ls;
+	}
+
+	public ProductImage getOneImage(int pid, String type) {
+		List<ProductImage> ones = list(pid, 0, 1, type);
+		if (ones.isEmpty()) {
+			return null;
+		}
+		return ones.get(0);
 	}
 
 }

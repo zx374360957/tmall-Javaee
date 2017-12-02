@@ -16,8 +16,7 @@ public class UserDAO {
 	public int getTotal() {
 		int total = 0;
 		String sql = "SELECT COUNT(*) FROM user";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
 			ResultSet rs = ps.executeQuery();
@@ -33,8 +32,7 @@ public class UserDAO {
 
 	public void add(User user) {
 		String sql = "INSERT INTO user(id, name, password) VALUE(null, ?, ?)";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, user.getName());
 			ps.setString(2, user.getPassword());
@@ -53,8 +51,7 @@ public class UserDAO {
 	public User get(int id) {
 		User user = null;
 		String sql = "SELECT * FROM user WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -75,8 +72,7 @@ public class UserDAO {
 	public User get(String name) {
 		User user = null;
 		String sql = "SELECT * FROM user WHERE name = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setString(1, name);
 
@@ -97,8 +93,7 @@ public class UserDAO {
 	public User get(String name, String password) {
 		User user = null;
 		String sql = "SELECT * FROM user WHERE name = ? AND password = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setString(1, name);
 			ps.setString(2, password);
@@ -119,8 +114,7 @@ public class UserDAO {
 
 	public void update(User user) {
 		String sql = "UPDATE user SET name = ?, password = ? WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setString(1, user.getName());
 			ps.setString(2, user.getPassword());
@@ -135,8 +129,7 @@ public class UserDAO {
 
 	public void dalete(int id) {
 		String sql = "DALETE FROM user WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -159,8 +152,7 @@ public class UserDAO {
 		List<User> users = new ArrayList<User>();
 		String sql = "SELECT * FORM user LIMIT ?, ?";
 
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, beg);
 			ps.setInt(2, len);

@@ -12,8 +12,7 @@ import com.tmall.util.DBUtil;
 public class OrderItemDAO {
 	public int getTotal() {
 		int total = 0;
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			Statement s = c.createStatement();
 			String sql = "SELECT count(*) FROM orderItem";
 
@@ -28,9 +27,8 @@ public class OrderItemDAO {
 	}
 
 	public void add(OrderItem bean) {
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "INSERT INTO orderItem(id, pid, oid, uid, number)" + " VALUES (null, ?, ?, ?, ?)";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, bean.getProduct().getId());
 			ps.setInt(2, bean.getOrder().getId());
@@ -50,9 +48,8 @@ public class OrderItemDAO {
 	}
 
 	public void update(OrderItem bean) {
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "UPDATE orderItem SET pid = ?, oid = ?," + " uid = ?, number = ?" + " WHERE id = ?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 
 			ps.setInt(1, bean.getProduct().getId());
@@ -70,9 +67,8 @@ public class OrderItemDAO {
 
 	public OrderItem get(int id) {
 		OrderItem bean = null;
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "SELECT * FROM orderItem WHERE id = ?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -93,9 +89,8 @@ public class OrderItemDAO {
 	}
 
 	public void dalete(int id) {
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "DELETE FROM orderItem WHERE id = ?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 

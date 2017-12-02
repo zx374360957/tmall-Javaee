@@ -15,11 +15,11 @@
 		</li>
 		<li>/</li>
 		<li>
-			<a href="admin_Category_list">${c.name}</a>
+			<a href="admin_Category_list">${p.category.name}</a>
 		</li>
 		<li>/</li>
 		<li>
-			<a href="admin_Product_list?cid=${c.id}">${p.name}</a>
+			<a href="admin_Product_list?cid=${p.category.id}">${p.name}</a>
 		</li>
 		<li>/</li>
 		<li>产品管理</li>

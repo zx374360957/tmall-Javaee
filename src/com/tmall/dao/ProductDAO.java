@@ -18,8 +18,7 @@ public class ProductDAO {
 	public int getTotal(int cid) {
 		int total = 0;
 		String sql = "SELECT count(*) FROM product WHERE cid = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, cid);
 
@@ -36,8 +35,7 @@ public class ProductDAO {
 	public void add(Product bean) {
 		String sql = "INSERT INTO product(id, name, subtitle, orignalPrice, promotePrice, stock, cid, createDate)"
 				+ " VALUE(null, ?, ?, ?, ?, ?, ?, ?)";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, bean.getName());
 			ps.setString(2, bean.getSubTitle());
@@ -60,8 +58,7 @@ public class ProductDAO {
 	public Product get(int id) {
 		Product product = null;
 		String sql = "SELECT * FROM product WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -87,8 +84,7 @@ public class ProductDAO {
 	public void update(Product bean) {
 		String sql = "UPDATE product SET name = ?, subtitle = ?, orignalPrice = ?, "
 				+ "promotePrice = ?, stock = ?, cid = ?, createDate = ? WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setString(1, bean.getName());
 			ps.setString(2, bean.getSubTitle());
@@ -108,8 +104,7 @@ public class ProductDAO {
 
 	public void delete(int id) {
 		String sql = "DELETE FROM product WHERE id = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
 			ps.setInt(1, id);
@@ -127,9 +122,8 @@ public class ProductDAO {
 
 	public List<Product> list(int cid, int beg, int len) {
 		List<Product> ls = new ArrayList<Product>();
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "SELECT * FROM product WHERE cid=? LIMIT ?,?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, cid);
 			ps.setInt(2, beg);

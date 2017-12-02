@@ -17,9 +17,9 @@ public class PropertyDAO {
 	public int getTotal(int cid) {
 		int total = 0;
 		String sql = "SELECT count(*) FROM property WHERE cid = ?";
-		try {
-			Connection c = DBUtil.getConnection();
+		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, cid);
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
@@ -32,9 +32,8 @@ public class PropertyDAO {
 	}
 
 	public void add(Property bean) {
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "INSERT INTO property(id, name, cid) VALUES (null, ?, ?)";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, bean.getName());
 			ps.setInt(2, bean.getCategory().getId());
@@ -52,9 +51,8 @@ public class PropertyDAO {
 	}
 
 	public void update(Property bean) {
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "UPDATE property SET name = ?, cid = ? WHERE id = ?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 
 			ps.setString(1, bean.getName());
@@ -69,9 +67,8 @@ public class PropertyDAO {
 
 	public Property get(int id) {
 		Property property = null;
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "SELECT * FROM property WHERE id = ?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -91,9 +88,8 @@ public class PropertyDAO {
 	}
 
 	public void dalete(int id) {
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "DELETE FROM property WHERE id = ?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
 
@@ -110,9 +106,8 @@ public class PropertyDAO {
 
 	public List<Property> list(int cid, int beg, int len) {
 		List<Property> ls = new ArrayList<Property>();
-		try {
+		try (Connection c = DBUtil.getConnection()) {
 			String sql = "SELECT * FROM Property WHERE cid = ? LIMIT ?,?";
-			Connection c = DBUtil.getConnection();
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, cid);
 			ps.setInt(2, beg);
