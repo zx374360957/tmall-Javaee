@@ -10,3 +10,5 @@
 	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
 	<script src="js/bootstrap/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/fore/styles.css" />
+</head>
+<body>
