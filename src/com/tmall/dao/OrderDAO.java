@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.tmall.beans.Order;
 import com.tmall.util.DBUtil;
@@ -14,7 +16,7 @@ public class OrderDAO {
 
 	public int getTotal() {
 		int total = 0;
-		String sql = "SELECT COUNT(*) FROM order";
+		String sql = "SELECT COUNT(*) FROM `order`";
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
@@ -32,7 +34,7 @@ public class OrderDAO {
 	}
 
 	public void add(Order bean) {
-		String sql = "INSERT INTO order(id, orderCode, address, post, receiver, mobile,"
+		String sql = "INSERT INTO `order` VALUES(id, orderCode, address, post, receiver, mobile,"
 				+ " userMessage, createDate, payDate, deliveryDate, confirmDate, uid, status)"
 				+ "VALUE (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection c = DBUtil.getConnection()) {
@@ -63,7 +65,7 @@ public class OrderDAO {
 	}
 
 	public void update(Order bean) {
-		String sql = "UPDATE propertyvalue " + "SET orderCode = ?, address = ?, post = ?, receiver = ?, mobile = ?,"
+		String sql = "UPDATE `order` SET orderCode = ?, address = ?, post = ?, receiver = ?, mobile = ?,"
 				+ "userMessage = ?, createDate = ?, payDate = ?, deliveryDate = ?,"
 				+ " confirmDate = ?, uid = ?, status = ?" + "WHERE id = ?";
 		try (Connection c = DBUtil.getConnection()) {
@@ -90,7 +92,7 @@ public class OrderDAO {
 	}
 
 	public void delete(int id) {
-		String sql = "DELETE FROM order WHERE id = ?";
+		String sql = "DELETE FROM `order` WHERE id = ?";
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
@@ -105,7 +107,7 @@ public class OrderDAO {
 	public Order get(int id) {
 
 		Order bean = null;
-		String sql = "SELECT * FROM order WHERE id = ?";
+		String sql = "SELECT * FROM `order` WHERE id = ?";
 
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
@@ -133,5 +135,42 @@ public class OrderDAO {
 		}
 
 		return bean;
+	}
+
+	public List<Order> list() {
+		return list(0, Short.MAX_VALUE);
+	}
+
+	public List<Order> list(int beg, int len) {
+		List<Order> ls = new ArrayList<Order>();
+		String sql = "SELECT * FROM `order`";
+
+		try (Connection c = DBUtil.getConnection()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Order bean = new Order();
+				bean.setId(rs.getInt("id"));
+				bean.setOrderCode(rs.getString("orderCode"));
+				bean.setAddress(rs.getString("address"));
+				bean.setPost(rs.getString("post"));
+				bean.setReceiver(rs.getString("receiver"));
+				bean.setMobile(rs.getString("mobile"));
+				bean.setUserMessage(rs.getString("userMessage"));
+				bean.setCreateDate(DateUtil.t2d(rs.getTimestamp("createDate")));
+				bean.setPayDate(DateUtil.t2d(rs.getTimestamp("payDate")));
+				bean.setDeliveryDate(DateUtil.t2d(rs.getTimestamp("deliveryDate")));
+				bean.setConfirmDate(DateUtil.t2d(rs.getTimestamp("confirmDate")));
+				bean.setUser(new UserDAO().get(rs.getInt("uid")));
+				bean.setStatus(rs.getString("status"));
+
+				ls.add(bean);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
 	}
 }

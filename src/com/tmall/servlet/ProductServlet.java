@@ -109,13 +109,14 @@ public class ProductServlet extends BackServlet {
 		List<Product> ps = productDAO.list(cid, page.getBegin(), page.getSingleCount());
 		Category c = categoryDAO.get(cid);
 		int total = productDAO.getTotal(cid);
+		page.setTotalCount(total);
+
 		Iterator<Product> it = ps.iterator();
 		while (it.hasNext()) {
 			Product p = (Product) it.next();
 			ProductImage pi = productImageDAO.getOneImage(p.getId(), "single");
 			p.setFirstProductImage(pi);
 		}
-		page.setTotalCount(total);
 
 		request.setAttribute("theps", ps);
 		request.setAttribute("page", page);

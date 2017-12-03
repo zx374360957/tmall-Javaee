@@ -127,7 +127,7 @@ public class UserDAO {
 		}
 	}
 
-	public void dalete(int id) {
+	public void delete(int id) {
 		String sql = "DALETE FROM user WHERE id = ?";
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
@@ -150,7 +150,7 @@ public class UserDAO {
 
 	public List<User> list(int beg, int len) {
 		List<User> users = new ArrayList<User>();
-		String sql = "SELECT * FORM user LIMIT ?, ?";
+		String sql = "SELECT * FROM user LIMIT ?, ?";
 
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);

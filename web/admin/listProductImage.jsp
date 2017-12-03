@@ -6,7 +6,7 @@
 <%@ include file="../include/admin/adminheader.jsp" %>
 <%@ include file="../include/admin/adminNavigator.jsp" %>
 
-<title>产品管理</title>
+<title>产品图片管理</title>
 
 <div>
 	<ul class="m-admin-title">

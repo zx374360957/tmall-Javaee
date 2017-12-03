@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tmall.beans.Category;
 import com.tmall.beans.Product;
 import com.tmall.beans.ProductImage;
 import com.tmall.util.ImageUtil;
@@ -85,7 +84,6 @@ public class ProductImageServlet extends BackServlet {
 	public String list(HttpServletResponse response, HttpServletRequest request, Page page) {
 		int id = Integer.parseInt(request.getParameter("id"));
 		Product p = productDAO.get(id);
-		Category c = p.getCategory();
 		List<ProductImage> si = productImageDAO.list(id, "single");
 		List<ProductImage> di = productImageDAO.list(id, "details");
 		p.setProductSingleImages(si);

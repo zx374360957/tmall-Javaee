@@ -52,6 +52,26 @@
 	</servlet-mapping>	
 	
 	<servlet>
+		<servlet-name>UserServlet</servlet-name>
+		<servlet-class>com.tmall.servlet.UserServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>UserServlet</servlet-name>
+		<url-pattern>/UserServlet</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
+		<servlet-name>OrderServlet</servlet-name>
+		<servlet-class>com.tmall.servlet.OrderServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>OrderServlet</servlet-name>
+		<url-pattern>/OrderServlet</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
 		<servlet-name>TestServlet</servlet-name>
 		<servlet-class>com.test.TestServlet</servlet-class>
 	</servlet>
