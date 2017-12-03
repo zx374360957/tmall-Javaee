@@ -6,44 +6,38 @@
 <%@ include file="../include/admin/adminheader.jsp" %>
 <%@ include file="../include/admin/adminNavigator.jsp" %>
 
-<title>订单管理</title>
+<title>订单项管理</title>
+
+<div>
+	<ul class="m-admin-title">
+		<li><a href="admin_Order_list"> 订单${o.id}</a></li>
+		<li>/</li>
+		<li>订单项管理</li>
+	</ul>
+</div>
 
 <div class="g-mid m-order">
 	<table border="1" class="m-list">
 		<thead>
 			<tr>
 				<th>ID</th>
-				<th>状态</th>
-				<th>金额</th>
+				<th colspan="2">商品名称</th>
 				<th>商品数量</th>
-				<th>买家名称</th>
-				<th>创建时间</th>
-				<th>支付时间</th>
-				<th>发货时间</th>
-				<th>确认收货时间</th>
-				<th>操作</th>
+				<th>原价格</th>
+				<th>促销价格</th>
+				<th>商品总价</th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${theos}" var="o">
+			<c:forEach items="${theois}" var="oi">
 			<tr>
-				<td>${o.id}</td>
-				<td>${o.status}</td>
-				<td>${o.total}</td>
-				<td>${o.totalNumber}</td>
-				<td>${o.user.name}</td>
-				<td>
-					<fmt:formatDate type="both" pattern="yyyy-MM-dd HH:mm:ss" value="${o.createDate}" />
-				</td>
-				<td><fmt:formatDate type="both" pattern="yyyy-MM-dd HH:mm:ss" value="${o.payDate}" /></td>
-				<td><fmt:formatDate type="both" pattern="yyyy-MM-dd HH:mm:ss" value="${o.deliveryDate}" /></td>
-				<td><fmt:formatDate type="both" pattern="yyyy-MM-dd HH:mm:ss" value="${o.confirmDate}" /></td>
-				<td class="operaty">
-					<button class="btn btn-info"><a href="admin_OrderItem_list?oid=${o.id}">查看详情</a></button>
-					<c:if test="${o.status == '待发货'}">
-						<button class="btn btn-info"><a href="admin_Order_update?id=${o.id}&operaty=delivery">发货</a></button>
-					</c:if>
-				</td>
+				<td>${oi.id}</td>
+				<td>${oi.product.firstProductImage}</td>
+				<td>${oi.product.name}</td>
+				<td>${oi.number}</td>
+				<td>${oi.product.orignalPrice}</td>
+				<td>${oi.product.promotePrice}</td>
+				<td>${oi.product.promotePrice * oi.number}</td>
 			</tr>
 			</c:forEach>
 		</tbody>

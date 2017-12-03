@@ -129,6 +129,8 @@ public class OrderDAO {
 				bean.setConfirmDate(DateUtil.t2d(rs.getTimestamp("confirmDate")));
 				bean.setUser(new UserDAO().get(rs.getInt("uid")));
 				bean.setStatus(rs.getString("status"));
+				bean.setTotal(new OrderItemDAO().getTotalCost(id));
+				bean.setTotalNumber(new OrderItemDAO().getTotalNumber(id));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -143,10 +145,13 @@ public class OrderDAO {
 
 	public List<Order> list(int beg, int len) {
 		List<Order> ls = new ArrayList<Order>();
-		String sql = "SELECT * FROM `order`";
+		String sql = "SELECT * FROM `order` LIMIT ?, ?";
 
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, beg);
+			ps.setInt(2, len);
+			OrderItemDAO orderItemDAO = new OrderItemDAO();
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -164,6 +169,8 @@ public class OrderDAO {
 				bean.setConfirmDate(DateUtil.t2d(rs.getTimestamp("confirmDate")));
 				bean.setUser(new UserDAO().get(rs.getInt("uid")));
 				bean.setStatus(rs.getString("status"));
+				bean.setTotal(orderItemDAO.getTotalCost(rs.getInt("id")));
+				bean.setTotalNumber(orderItemDAO.getTotalNumber(rs.getInt("id")));
 
 				ls.add(bean);
 			}

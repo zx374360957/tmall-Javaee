@@ -103,5 +103,6 @@ body {margin: 0; padding: 50px;}
 .m-propertyValue-edit table td{
 	padding: 10px;
 }
-.m-order .operaty button{
+.m-order .operaty button a{
+	color: white;
 }

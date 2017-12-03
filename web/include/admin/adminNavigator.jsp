@@ -2,7 +2,7 @@
     pageEncoding="utf-8" isELIgnored="false"%>
 <div class="navigator">
 	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
-		<img src="image/site/tmallbuy.png" class="navbar-left" alt="tmall" height="45px" />
+		<a href="admin"><img src="image/site/tmallbuy.png" class="navbar-left" alt="tmall" height="45px" /></a>
 		<a class="navbar-brand" href="admin">天猫后台</a>
 		<a class="navbar-brand" href="admin_Category_list">分类管理</a>
 		<a class="navbar-brand" href="admin_User_list">用户管理</a>

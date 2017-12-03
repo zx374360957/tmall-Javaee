@@ -72,6 +72,16 @@
 	</servlet-mapping>	
 	
 	<servlet>
+		<servlet-name>OrderItemServlet</servlet-name>
+		<servlet-class>com.tmall.servlet.OrderItemServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>OrderItemServlet</servlet-name>
+		<url-pattern>/OrderItemServlet</url-pattern>
+	</servlet-mapping>	
+	
+	<servlet>
 		<servlet-name>TestServlet</servlet-name>
 		<servlet-class>com.test.TestServlet</servlet-class>
 	</servlet>
