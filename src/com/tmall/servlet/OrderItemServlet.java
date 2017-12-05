@@ -33,6 +33,7 @@ public class OrderItemServlet extends BackServlet {
 
 		int total = orderItemDAO.getTotalNumber(oid);
 		page.setTotalCount(total);
+		page.setParam("&oid=" + oid);
 
 		request.setAttribute("theos", ois);
 		request.setAttribute("page", page);

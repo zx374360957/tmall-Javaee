@@ -84,17 +84,21 @@
 /* =============== */
 /* = 搜索框效果 = */
 /* ============== */
-
+.g-search-mid{
+	
+}
 .m-search {
-	float: right;
 	position: relative;
+	float: right;
+	height: 150px;
 	left: -15%;
 	top: 50px;
 }
 
 .m-search-min {
 	position: relative;
-	top: -40px;
+	/*top: -40px;*/
+	height: 100px;
 	float: right;
 }
 
@@ -105,7 +109,7 @@
 
 .u-search-mlogo {
 	position: relative;
-	top: 10px;
+	top: 40px;
 }
 
 
@@ -125,7 +129,7 @@
 }
 
 .u-search-input-min {
-	width: 375px;
+	width: 200px;
 	heigh: 30px;
 }
 
@@ -231,7 +235,7 @@
 
 .m-foot1-guide {
 	height: 220px;
-	background: url(../src/foot-bg.jpg) no-repeat left bottom;
+	background: url(/tmall/image/site/cateye.png) no-repeat left bottom;
 }
 
 .m-foot1-guide .div {
@@ -320,20 +324,21 @@
 	height: 40px;
 	padding: 0;
 	border-bottom: 1px solid rgba(238, 238, 238, .95);
+	z-index: 1;
 }
 
 .u-nav2-title,
 .u-nav-list,
-.u-nav2-list>li {
+.u-nav2-list li {
 	float: left;
 	height: 40px;
-	padding: 10px;
 	margin-right: 30px;
 	font-size: 16px;
 }
 
 .u-nav2-title {
 	width: 150px;
+	padding: 5px;
 	text-align: center;
 	color: #ff0036;
 	background-color: rgba(238, 238, 238, .95);
@@ -343,20 +348,17 @@
 	list-style-type: none;
 }
 
-.u-nav2-list>li {
-	display: block;
-	float: left;
-}
 
 .u-nav2-list .link {
 	display: block;
+	padding: 5px;
 	text-decoration: none;
-	color: black;
+	color: white;
 }
 
 .u-nav2-list .link:hover {
 	text-decoration: none;
-	color: #ff0036;
+	color: white;
 }
 
 .g-slider {
@@ -471,12 +473,12 @@
 }
 
 .u-type .items:hover {
-	opacity: 0.6;
+	opacity: 0.8;
 }
 
 .u-type .items {
-	margin-left: 15px;
-	margin-right: 15px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 
@@ -493,22 +495,26 @@
 	float: left;
 	margin-right: 10px;
 	padding: 2px;
-	width: 183px;
+	width: 200px;
 	height: 280px;
+	border: 2px solid transparent;
 	background-color: white;
 }
 
-.items .text {
-	padding: 12px;
-}
-
-.items .text .name {
+.items .name {
+	display: block;
+	height: 50px;
+	width: 100%;
+	padding: 10px;
 	font-size: 14px;
 	color: #333;
+	
 }
 
-.items .text .price {
-	padding-top: 10px;
+
+.items .price {
+	margin: 0;
+	padding: 10px;
 }
 
 
@@ -672,7 +678,7 @@
 	padding: 10px;
 	font-size: 12px;
 	color: #666666;
-	background-image: url(../src/priceBackground.png);
+	background-image: url(/tmall/image/site/priceBackground.png);
 }
 
 .m-essential .price img {
@@ -814,7 +820,6 @@
 }
 
 .m-description-img .details {
-	height: 200px;
 	border: 1px solid #E6E6E6;
 	border-top: none;
 	font-size: 12px;
@@ -822,15 +827,16 @@
 
 .m-description-img .details .title {
 	display: block;
-	padding: 40px 20px 20px 40px;
+	padding: 40px 20px 0px 40px;
 }
-
-.m-description-img .details span {
-	display: block;
-	float: left;
-	width: 200px;
+.m-description-img .details table{
+	margin: 35px;
+	margin-top: 15px;
+}
+.m-description-img .details table td {
+	width: 230px;
 	height: 20px;
-	margin: 10px 0 10px 40px;
+	padding: 5px;
 }
 
 .m-description-img img {

@@ -34,6 +34,7 @@ public class BackServletFilter implements Filter {
 			request.getRequestDispatcher("/" + servletPath).forward(request, response);
 			return;
 		}
+
 		chain.doFilter(request, response);
 	}
 

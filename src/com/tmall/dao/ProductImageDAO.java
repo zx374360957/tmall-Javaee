@@ -128,12 +128,17 @@ public class ProductImageDAO {
 		return ls;
 	}
 
-	public ProductImage getOneImage(int pid, String type) {
-		List<ProductImage> ones = list(pid, 0, 1, type);
+	public ProductImage getOneImage(int pid) {
+		List<ProductImage> ones = list(pid, 0, 1, "single");
 		if (ones.isEmpty()) {
 			return null;
 		}
 		return ones.get(0);
 	}
 
+	public void fillImage(Product p) {
+		p.setFirstProductImage(getOneImage(p.getId()));
+		p.setProductSingleImages(list(p.getId(), "single"));
+		p.setProductDetailsImages(list(p.getId(), "details"));
+	}
 }

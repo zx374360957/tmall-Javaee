@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.tmall.beans.Category;
@@ -74,6 +75,12 @@ public class ProductDAO {
 				Category category = new CategoryDAO().get(rs.getInt("cid"));
 				product.setCategory(category);
 				product.setCreateDate(DateUtil.t2d(rs.getTimestamp("createDate")));
+				// ProductImageDAO productImageDAO = new ProductImageDAO();
+				// product.setFirstProductImage(productImageDAO.getOneImage(product.getId()));
+				// product.setProductSingleImages(productImageDAO.list(product.getId(),
+				// "single"));
+				// product.setProductDetailsImages(productImageDAO.list(product.getId(),
+				// "details"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -129,6 +136,8 @@ public class ProductDAO {
 			ps.setInt(2, beg);
 			ps.setInt(3, len);
 
+			CategoryDAO categoryDAO = new CategoryDAO();
+			ProductImageDAO productImageDAO = new ProductImageDAO();
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Product p = new Product();
@@ -139,8 +148,11 @@ public class ProductDAO {
 				p.setPromotePrice(rs.getFloat("promotePrice"));
 				p.setStock(rs.getInt("stock"));
 				p.setCreateDate(DateUtil.t2d(rs.getTimestamp("createDate")));
-				Category cg = new CategoryDAO().get(rs.getInt("cid"));
+				Category cg = categoryDAO.get(rs.getInt("cid"));
 				p.setCategory(cg);
+				p.setFirstProductImage(productImageDAO.getOneImage(p.getId()));
+				p.setProductSingleImages(productImageDAO.list(p.getId(), "single"));
+				p.setProductDetailsImages(productImageDAO.list(p.getId(), "details"));
 
 				ls.add(p);
 			}
@@ -151,4 +163,29 @@ public class ProductDAO {
 		return ls;
 	}
 
+	public void fill(List<Category> cs) {
+		Iterator<Category> it = cs.iterator();
+		while (it.hasNext()) {
+			Category c = it.next();
+			c.setProducts(list(c.getId()));
+		}
+	}
+
+	public void fillByRow(List<Category> cs) {
+		Iterator<Category> it = cs.iterator();
+		while (it.hasNext()) {
+			Category c = it.next();
+
+			int beg = 0;
+			List<List<Product>> pss = new ArrayList<List<Product>>();
+			List<Product> ls = list(c.getId(), beg, 6);
+			while (ls.size() > 0) {
+				pss.add(ls);
+				beg += 6;
+				ls = list(c.getId(), beg, 6);
+				pss.add(ls);
+			}
+			c.setProductsByRow(pss);
+		}
+	}
 }

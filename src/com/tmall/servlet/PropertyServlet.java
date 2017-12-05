@@ -99,6 +99,7 @@ public class PropertyServlet extends BackServlet {
 		List<Property> pps = propertyDAO.list(cid, page.getBegin(), page.getSingleCount());
 		Category c = categoryDAO.get(cid);
 		page.setTotalCount(propertyDAO.getTotal(cid));
+		page.setParam("&cid=" + cid);
 
 		request.setAttribute("thepps", pps);
 		request.setAttribute("page", page);

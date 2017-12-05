@@ -1,6 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8" isELIgnored="false"%>
+    
 <div class="g-foot-mid">
 	<div class="u-foot1-img">
-		<a href="#help"><img src="src/footpage.png" alt="img" /></a>
+		<a href="#help"><img src="/tmall/image/site/ensure.png" alt="img" /></a>
 	</div>
 	<div class="m-foot1-guide">
 		<div class="div">
@@ -85,11 +88,12 @@
 		<span class="u-foot2-license">网络文化经营许可证：浙网文[2015]0295-065号</span>
 		<span class="u-foot2-license">12318举报</span><br />
 		<span class="u-foot2-license">互联网药品信息服务资质证书编号：浙-（经营性）-2017-0005</span>
-		<span class="u-foot2-license"><img src="src/polise.png" alt="polise" />浙公网安备 33010002000120号</span>
+		<span class="u-foot2-license"><img src="/tmall/image/site/polise.png" alt="co" />浙公网安备 33010002000120号</span>
 		<br />
 		<span class="u-foot2-copyright">© 2003-2017 TMALL.COM 版权所有</span>
 		<br />
-		<img class="u-foot2-img" src="src/coco.png" alt="co" />
+		<img class="u-foot2-img" src="/tmall/image/site/copyRight1.jpg" alt="co" />
+		<img class="u-foot2-img" src="/tmall/image/site/copyRight2.jpg" alt="co" />
 	</div>
 </div>
 </body>

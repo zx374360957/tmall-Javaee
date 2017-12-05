@@ -1,1 +1,1 @@
-<% response.sendRedirect("fore/home.jsp") %>
+<% response.sendRedirect("foreindex"); %>

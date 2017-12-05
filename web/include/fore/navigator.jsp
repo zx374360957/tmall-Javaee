@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8" isELIgnored="false"%>
+    
 <nav class="m-nav">
 	<div class="g-nav-mid">
 		<span style="margin: 0 15px 0 0;">喵，欢迎来天猫</span>
