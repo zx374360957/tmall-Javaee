@@ -21,7 +21,7 @@
 	display: inline-block;
 	width: 25px;
 	height: 25px;
-	background-image: url(../src/wangwang.gif);
+	background-image: url(/tmall/image/site/wangwang.gif);
 	background-repeat: no-repeat;
 	background-position: -80px 0;
 }
@@ -29,7 +29,7 @@
 	display: inline-block;
 	width: 67px;
 	height: 22px;
-	background-image: url(../src/wangwang.gif);
+	background-image: url(/tmall/image/site/wangwang.gif);
 }
 
 /* ========== */
@@ -90,7 +90,7 @@
 .m-search {
 	position: relative;
 	float: right;
-	height: 150px;
+	height: 100px;
 	left: -15%;
 	top: 50px;
 }
@@ -593,9 +593,7 @@
 .m-category {
 	position: relative;
 	margin: 50px;
-	height: 280px;
 }
-
 .m-category .items:hover {
 	border: 2px solid #FF0036;
 }
@@ -962,6 +960,10 @@
 	/*display: table-row;*/
 	border: 1px solid #CCCCCC;
 }
+.m-shopping-item .g-check{
+	float: left;
+	margin-top: 20px;
+}
 .m-shopping-item .item-img{
 	width: 80px;
 	height: 80px;
@@ -975,7 +977,9 @@
 	position: relative;
 }
 .m-shopping-item .change button{
- 	width: 20px;
+ 	display: inline-block;
+ 	width: 40px;
+ 	height: 40px;
 	border: 1px solid #CCCCCC;
 	background-color: white;
 }
@@ -988,6 +992,9 @@
 	font-size: 14px;
 	color: #888888;
 }
+.m-shopping-item .pidSelect{
+	display: none;
+}
 
 .s-abled {
 	background-color: #FF0036;
@@ -998,6 +1005,7 @@
 /* ========== */
 .m-order{
 	display: block;
+	margin-bottom: 10px;
 	border: 2px solid #E6E6E6;;
 }
 
@@ -1075,6 +1083,7 @@
 }
 .u-orderName .item-img{
 	width: 80px;
+	height: 80px;
 }
 .u-orderName .name{
 	text-align: left;
@@ -1175,6 +1184,8 @@
 	margin-bottom: 20px;
 }
 .m-confirm-process span{
+	display: inline-block;
+	width: 112px;
 	margin-right: 100px;
 }
 .m-confirm-title{
@@ -1269,7 +1280,7 @@
 	position: relative;
 	height: 600px;
 	margin: 20px 0;
-	background-image: url(../src/loginBackground.png);
+	background-image: url(/tmall/image/site/loginBackground.png);
 	background-repeat: no-repeat;
 }
 .m-login-input{
@@ -1315,11 +1326,17 @@
 	float: right;
 }
 .m-login-input .login-btn{
+	margin-top: 20px;
 	width: 300px;
 	height: 50px;
 	color: white;
 	font-size: 18px;
 	background-color: #FF0036;
+}
+.m-login-input .loginTips{
+	display: none;
+	color: #FF0036;
+	float: right;
 }
 /* ========== */
 /* = 注册 = */

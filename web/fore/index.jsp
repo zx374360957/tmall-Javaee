@@ -84,7 +84,7 @@
 									<c:if test="${not empty p.subTitle}">
 										<c:forEach items="${fn:split(p.subTitle, ' ')}" var="s" varStatus="status">
 										<c:if test="${status.index == 0}">
-											<a href="">${s}</a>
+											<a href="foreproduct?pid=${p.id}">${s}</a>
 										</c:if>
 										</c:forEach>
 									</c:if>
@@ -106,10 +106,10 @@
 					<h4 style="color: #333;" <strong>${c.name}</strong></h4>
 					<c:forEach items="${c.products}" var="p">
 						<div class="items">
-						<a href=""><img src="image/product/${p.id}/${p.firstProductImage.id}.jpg" alt="商品" width="180px" height="180px"/></a>
+						<a href="foreproduct?pid=${p.id}"><img src="image/product/${p.id}/${p.firstProductImage.id}.jpg" alt="商品" width="180px" height="180px"/></a>
 						<br />
 						<div>
-							<a class="name" href="forecategory?cid=${c.id}">[热销] ${fn:substring(p.name, 0, 20)}</a>
+							<a class="name" href="foreproduct?pid=${p.id}">[热销] ${fn:substring(p.name, 0, 20)}</a>
 							<div class="s-redColor price">
 								¥<fmt:formatNumber value="${p.promotePrice}" pattern="#,#00.00#" />
 							</div>

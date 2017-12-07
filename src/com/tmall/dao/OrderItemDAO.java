@@ -8,7 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tmall.beans.Order;
 import com.tmall.beans.OrderItem;
+import com.tmall.beans.Product;
 import com.tmall.util.DBUtil;
 
 public class OrderItemDAO {
@@ -31,11 +33,11 @@ public class OrderItemDAO {
 
 	public void add(OrderItem bean) {
 		try (Connection c = DBUtil.getConnection()) {
-			String sql = "INSERT INTO orderItem(id, pid, oid, uid, number)" + " VALUES (null, ?, ?, ?, ?)";
+			String sql = "INSERT INTO orderItem(id, pid, oid, uid, number) VALUES (null, ?, ?, ?, ?)";
 			PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, bean.getProduct().getId());
 			ps.setInt(2, bean.getOrder().getId());
-			ps.setInt(3, bean.getProduct().getId());
+			ps.setInt(3, bean.getUser().getId());
 			ps.setInt(4, bean.getNumber());
 
 			ps.executeUpdate();
@@ -125,7 +127,7 @@ public class OrderItemDAO {
 	}
 
 	public List<OrderItem> list(int oid) {
-		return null;
+		return list(oid, 0, Short.MAX_VALUE);
 	}
 
 	public List<OrderItem> list(int oid, int beg, int len) {
@@ -139,12 +141,18 @@ public class OrderItemDAO {
 			ps.setInt(3, len);
 
 			ResultSet rs = ps.executeQuery();
+			ProductDAO productDAO = new ProductDAO();
+			OrderDAO orderDAO = new OrderDAO();
+			UserDAO userDAO = new UserDAO();
+			ProductImageDAO productImageDAO = new ProductImageDAO();
 			while (rs.next()) {
 				OrderItem bean = new OrderItem();
 				bean.setId(rs.getInt("id"));
-				bean.setProduct(new ProductDAO().get(rs.getInt("pid")));
-				bean.setOrder(new OrderDAO().get(rs.getInt("oid")));
-				bean.setUser(new UserDAO().get(rs.getInt("uid")));
+				Product p = productDAO.get(rs.getInt("pid"));
+				productImageDAO.fillImage(p);
+				bean.setProduct(p);
+				bean.setOrder(orderDAO.get(rs.getInt("oid")));
+				bean.setUser(userDAO.get(rs.getInt("uid")));
 				bean.setNumber(rs.getInt("number"));
 
 				ls.add(bean);
@@ -154,5 +162,13 @@ public class OrderItemDAO {
 		}
 
 		return ls;
+	}
+
+	public void addAll(Order order) {
+		List<OrderItem> ois = order.getOrderItems();
+		for (OrderItem oi : ois) {
+			oi.setOrder(order);
+			add(oi);
+		}
 	}
 }

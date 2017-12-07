@@ -34,9 +34,9 @@ public class OrderDAO {
 	}
 
 	public void add(Order bean) {
-		String sql = "INSERT INTO `order` VALUES(id, orderCode, address, post, receiver, mobile,"
+		String sql = "INSERT INTO `order` (id, orderCode, address, post, receiver, mobile,"
 				+ " userMessage, createDate, payDate, deliveryDate, confirmDate, uid, status)"
-				+ "VALUE (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, bean.getOrderCode());
@@ -139,10 +139,6 @@ public class OrderDAO {
 		return bean;
 	}
 
-	public List<Order> list() {
-		return list(0, Short.MAX_VALUE);
-	}
-
 	public List<Order> list(int beg, int len) {
 		List<Order> ls = new ArrayList<Order>();
 		String sql = "SELECT * FROM `order` LIMIT ?, ?";
@@ -171,6 +167,51 @@ public class OrderDAO {
 				bean.setStatus(rs.getString("status"));
 				bean.setTotal(orderItemDAO.getTotalCost(rs.getInt("id")));
 				bean.setTotalNumber(orderItemDAO.getTotalNumber(rs.getInt("id")));
+				bean.setOrderItems(orderItemDAO.list(bean.getId()));
+
+				ls.add(bean);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
+	}
+
+	public List<Order> list(int uid) {
+		return list(uid, 0, Short.MAX_VALUE);
+	}
+
+	public List<Order> list(int uid, int beg, int len) {
+		List<Order> ls = new ArrayList<Order>();
+		String sql = "SELECT * FROM `order` WHERE uid = ? LIMIT ?, ?";
+
+		try (Connection c = DBUtil.getConnection()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, uid);
+			ps.setInt(2, beg);
+			ps.setInt(3, len);
+			OrderItemDAO orderItemDAO = new OrderItemDAO();
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Order bean = new Order();
+				bean.setId(rs.getInt("id"));
+				bean.setOrderCode(rs.getString("orderCode"));
+				bean.setAddress(rs.getString("address"));
+				bean.setPost(rs.getString("post"));
+				bean.setReceiver(rs.getString("receiver"));
+				bean.setMobile(rs.getString("mobile"));
+				bean.setUserMessage(rs.getString("userMessage"));
+				bean.setCreateDate(DateUtil.t2d(rs.getTimestamp("createDate")));
+				bean.setPayDate(DateUtil.t2d(rs.getTimestamp("payDate")));
+				bean.setDeliveryDate(DateUtil.t2d(rs.getTimestamp("deliveryDate")));
+				bean.setConfirmDate(DateUtil.t2d(rs.getTimestamp("confirmDate")));
+				bean.setUser(new UserDAO().get(rs.getInt("uid")));
+				bean.setStatus(rs.getString("status"));
+				bean.setTotal(orderItemDAO.getTotalCost(rs.getInt("id")));
+				bean.setTotalNumber(orderItemDAO.getTotalNumber(rs.getInt("id")));
+				bean.setOrderItems(orderItemDAO.list(bean.getId()));
 
 				ls.add(bean);
 			}

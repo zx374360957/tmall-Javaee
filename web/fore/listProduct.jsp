@@ -65,19 +65,23 @@
 		</div>
 		<div class="m-selected-cnt">
 			<span>数量 </span>
-			<input id="selectedCount" type="text" value="1" />
+			<form id="productform" action="foretoCreateOrder" method="get" style="display: inline-block;">
+				<input id="selectedCount"  name="selectedCount" type="text" value="1" />
+				<input id="pid" name="pid" type="hidden" value="${p.id}" />
+			</form>
 			<span class="change-button">
-							<a id="countUp" href="#up" class="glyphicon glyphicon-chevron-up"></a>
-							<a id="countDown" href="#down" class="glyphicon glyphicon-chevron-down"></a>
-						</span>
+				<a id="countUp" href="#up" class="glyphicon glyphicon-chevron-up"></a>
+				<a id="countDown" href="#down" class="glyphicon glyphicon-chevron-down"></a>
+			</span>
+			
 			<span> 件 库存${p.stock}件</span>
 		</div>
 		<div style="margin: 20px 0; font-size: 12px; color: #666666;">
 			服务承诺 正品保证 极速退款 赠运费险 七天无理由退换
 		</div>
 		<div>
-			<a href=""><button class="buy">立即购买</button></a>
-			<a href=""><button class="shopcart"><span class="glyphicon glyphicon-shopping-cart"></span>加入购物车</button></a>
+			<button id="buyButton" class="buy">立即购买</button></a>
+			<button id="addShoppingCart" class="shopcart"><span class="glyphicon glyphicon-shopping-cart"></span>加入购物车</button>
 		</div>
 	</div>
 </div>
@@ -101,6 +105,42 @@
 			</c:forEach>
 		</div>
 	</div>
+</div>
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+       <div class="m-login-input">
+				<strong style="font-size: 18px;">账户登录</strong>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="input">
+					<span class="glyphicon glyphicon-user"></span>
+					<input type="text" id="usr" placeholder="手机/会员名/邮箱" />
+				</div>
+				<div class="input">
+					<span class="glyphicon glyphicon-lock"></span>
+					<input type="password" id="pwd" placeholder="密码" />
+				</div>
+				<div style="height: 30px;">
+					<div class="forgetPWD">
+						<a href="#1">忘记登录密码</a>
+					</div>
+					<div class="freeRegist">
+						<a href="#1">免费注册</a>
+					</div>
+					
+				</div>
+				<div id="loginTips" class="loginTips">
+					用户名或者密码错误
+				</div>
+				<button id="login"class="login-btn">登录</button>
+			</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -144,7 +184,43 @@
 			$("#img").css("display", "none");
 			$("#review").css("display", "block");
 		})
+		$("#addShoppingCart").click(function(){
+			$.post('AjaxServlet',{
+					method: "addShoppingCart",
+					pid: ${p.id},
+					count: $("#selectedCount").val() 
+				}, function(){
+					window.location.reload(true);
+				}
+			)
+		})
+		$("#buyButton").click(function(){
+			<c:choose>
+				<c:when test="${empty sessionScope.user}">
+				$("#myModal").modal("show");
+				</c:when>
+				<c:otherwise>
+				$("#productform").submit();
+				</c:otherwise>
+			</c:choose>
+		})
+		$("#login").click(function(){
+			var url = "AjaxServlet";
+			$.post(url,{
+				method: "login",
+				user: $("#usr").val(),
+				password: $("#pwd").val(),
+			},function(result){
+				if (result === 'fail'){
+					$("#loginTips").show();
+				} else{
+					$("#productform").submit();
+				}
+			}
+			);
+		})
 	})
+
 </script>
 
 <%@ include file="../include/fore/separator.jsp" %>

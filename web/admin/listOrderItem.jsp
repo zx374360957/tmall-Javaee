@@ -15,13 +15,12 @@
 		<li>订单项管理</li>
 	</ul>
 </div>
-
 <div class="g-mid m-order">
 	<table border="1" class="m-list">
 		<thead>
 			<tr>
 				<th>ID</th>
-				<th colspan="2">商品名称</th>
+				<th>商品名称</th>
 				<th>商品数量</th>
 				<th>原价格</th>
 				<th>促销价格</th>
@@ -32,12 +31,14 @@
 			<c:forEach items="${theois}" var="oi">
 			<tr>
 				<td>${oi.id}</td>
-				<td>${oi.product.firstProductImage}</td>
-				<td>${oi.product.name}</td>
+				<td>
+					<img src="/tmall/image/product/${oi.product.id}/${oi.product.firstProductImage.id}.jpg" width="80px" height="80px"/>
+					${oi.product.name}
+				</td>
 				<td>${oi.number}</td>
-				<td>${oi.product.orignalPrice}</td>
-				<td>${oi.product.promotePrice}</td>
-				<td>${oi.product.promotePrice * oi.number}</td>
+				<td>￥<fmt:formatNumber value="${oi.product.orignalPrice}" pattern="#,#00.00#" /></td>
+				<td>￥<fmt:formatNumber value="${oi.product.promotePrice}" pattern="#,#00.00#" /></td>
+				<td>￥<fmt:formatNumber value="${oi.product.promotePrice * oi.number}" pattern="#,#00.00#" /></td>
 			</tr>
 			</c:forEach>
 		</tbody>

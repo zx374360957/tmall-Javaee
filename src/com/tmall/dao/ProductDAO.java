@@ -75,6 +75,7 @@ public class ProductDAO {
 				Category category = new CategoryDAO().get(rs.getInt("cid"));
 				product.setCategory(category);
 				product.setCreateDate(DateUtil.t2d(rs.getTimestamp("createDate")));
+				product.setReviewCount(new ReviewDAO().getTotal(id));
 				// ProductImageDAO productImageDAO = new ProductImageDAO();
 				// product.setFirstProductImage(productImageDAO.getOneImage(product.getId()));
 				// product.setProductSingleImages(productImageDAO.list(product.getId(),
@@ -133,6 +134,48 @@ public class ProductDAO {
 			String sql = "SELECT * FROM product WHERE cid=? LIMIT ?,?";
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, cid);
+			ps.setInt(2, beg);
+			ps.setInt(3, len);
+
+			CategoryDAO categoryDAO = new CategoryDAO();
+			ProductImageDAO productImageDAO = new ProductImageDAO();
+			ReviewDAO reviewDAO = new ReviewDAO();
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Product p = new Product();
+				p.setId(rs.getInt("id"));
+				p.setName(rs.getString("name"));
+				p.setSubTitle(rs.getString("subTitle"));
+				p.setOrignalPrice(rs.getFloat("orignalPrice"));
+				p.setPromotePrice(rs.getFloat("promotePrice"));
+				p.setStock(rs.getInt("stock"));
+				p.setCreateDate(DateUtil.t2d(rs.getTimestamp("createDate")));
+				Category cg = categoryDAO.get(rs.getInt("cid"));
+				p.setCategory(cg);
+				p.setFirstProductImage(productImageDAO.getOneImage(p.getId()));
+				p.setProductSingleImages(productImageDAO.list(p.getId(), "single"));
+				p.setProductDetailsImages(productImageDAO.list(p.getId(), "details"));
+				p.setReviewCount(reviewDAO.getTotal(p.getId()));
+
+				ls.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ls;
+	}
+
+	public List<Product> search(String name) {
+		return search(name, 0, Short.MAX_VALUE);
+	}
+
+	public List<Product> search(String name, int beg, int len) {
+		List<Product> ls = new ArrayList<Product>();
+		try (Connection c = DBUtil.getConnection()) {
+			String sql = "SELECT * FROM product WHERE name like ? LIMIT ?,?";
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setString(1, "%" + name + "%");
 			ps.setInt(2, beg);
 			ps.setInt(3, len);
 

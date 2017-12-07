@@ -35,7 +35,7 @@ public class OrderItemServlet extends BackServlet {
 		page.setTotalCount(total);
 		page.setParam("&oid=" + oid);
 
-		request.setAttribute("theos", ois);
+		request.setAttribute("theois", ois);
 		request.setAttribute("page", page);
 		request.setAttribute("o", orderDAO.get(oid));
 
