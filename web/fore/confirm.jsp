@@ -65,7 +65,7 @@
 			<span style="margin-right: 50px;">卖家昵称：</span> 天猫商铺
 			<span class="m-aLiWangWang-allactive"></span>
 		</div>
-		<div><span style="margin-right: 50px;">收货信息：</span> ${o.address}，${o.receiver}，${o.mobile}，${post}</div>
+		<div><span style="margin-right: 50px;">收货信息：</span> <c:out value="${o.address}, ${o.receiver}, ${o.mobile}, ${post}" escapeXml="true" /></div>
 		<div><span style="margin-right: 50px;">成交时间：</span> <fmt:formatDate type="both" pattern="yyyy-MM-dd HH:mm:ss" value="${o.createDate}" /></div>
 	</div>
 

@@ -14,14 +14,14 @@
 <%@ include file="../include/fore/separator.jsp" %>
 
 <div class="g-register">
-			<table border="0" align="center">
+			<table border="0" style="margin: 0 auto;">
 				<tr>
 					<td><strong>设置会员名</strong></td>
 				</tr>
 				<tr>
 					<td>登陆名</td>
-					<td><input type="text" id="name" placeholder="会员名一旦设置成功，无法修改" /></td>
-					<td id="nameTips1" style="color: #FF0036; display: block;">当前会员名以已存在</td>
+					<td><input type="text" id="userName" name="userName" placeholder="会员名一旦设置成功，无法修改" /></td>
+					<td><span id="nameTips" style="display: none;color: #FF0036;">当前会员名以已存在</span></td>
 				</tr>
 				<tr>
 					<td><strong>设置登陆密码</strong></td>
@@ -33,47 +33,51 @@
 				</tr>
 				<tr>
 					<td>密码确认</td>
-					<td><input type="password" id="confirm" placeholder="请再次输入你的密码" /></td>
+					<td>
+						<input type="password" id="confirm" placeholder="请再次输入你的密码" />
+					</td>
+					<td>
+						<span id="pwdTips" style="display: none;color: #FF0036;">两次输入密码不一致</span>
+					</td>
 				</tr>
-				<tr><td id="pwdTips" style="color: #FF0036;">两次输入密码不一致</td></tr>
+				<tr>
+					
+				</tr>
 			</table>
-			<button id="register" class="sign-up-btn">
+			<button type="button" id="register" class="sign-up-btn">
 				提交
 			</button>
 		</div>
 
 <script type="text/javascript">
-	$("#name").keyup(function(){
-		var url = "AjaxServlet";
-		var userName = $("#name").val();
-		if (userName.length ！== 0){
-			$("nameTips1").hidden();
-			$.post(url,{
-				method: "register",
-				name: userName,
-				password: $("#password").val(),
-				confirm: 
-				},function(result){
-					if (result === 'success'){
-						$("#nameTips").hidden();
-						
-					} else{
-						$("#nameTips").text(result);
-						$("#nameTips").show();
-					}
-				}
-			);
-		} 
-	})
 	$("#register").click(function(){
+		if ($("#userName").val().length === 0){
+			alert("名字不能为空");
+			$("#userName").focus();
+			return;
+		}
+		if ($("#password").val().length === 0){
+			alert("密码不能为空");
+			$("#password").focus();
+			return;
+		}
+		if ($("#confirm").val().length === 0){
+			alert("密码不能为空");
+			$("#confirm").focus();
+			return;
+		}
+		if ($("#password").val() !== $("#confirm").val()){
+			$("#pwdTips").show();
+			return;
+		}
 		var url = "AjaxServlet";
 		$.post(url,{
 				method: "register",
-				user: $("#name").val(),
-				password: $("#pwd").val(),
+				user: $("#userName").val(),
+				password: $("#password").val()
 			},function(result){
 				if (result === 'fail'){
-					$("#loginTips").show();
+					$("#nameTips").show();
 				} else{
 					window.location.assign('http://localhost:8080/tmall/foreindex');
 				}

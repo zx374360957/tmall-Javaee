@@ -24,7 +24,7 @@
 					<li>预计<fmt:formatDate type="date" value="${time}" />送达</li>
 				</ul>
 				<div>
-					您可以 <a href="foreorder" class="link">查看已买到的宝贝 </a><a href="" class="link"> 查看交易详情</a>
+					您可以 <a href="forelistOrder" class="link">查看已买到的宝贝 </a><a href="forelistOrder" class="link"> 查看交易详情</a>
 				</div>
 			</div>
 			<div class="m-success-underline"></div>

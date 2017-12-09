@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,6 +29,7 @@ import com.tmall.beans.Order;
 import com.tmall.beans.OrderItem;
 import com.tmall.beans.Product;
 import com.tmall.beans.PropertyValue;
+import com.tmall.beans.Review;
 import com.tmall.beans.User;
 import com.tmall.dao.CategoryDAO;
 import com.tmall.dao.OrderDAO;
@@ -35,6 +37,7 @@ import com.tmall.dao.OrderItemDAO;
 import com.tmall.dao.ProductDAO;
 import com.tmall.dao.ProductImageDAO;
 import com.tmall.dao.PropertyValueDAO;
+import com.tmall.dao.ReviewDAO;
 
 @SuppressWarnings("serial")
 public class IndexServlet extends HttpServlet {
@@ -44,6 +47,7 @@ public class IndexServlet extends HttpServlet {
 	private ProductImageDAO productImageDAO = new ProductImageDAO();
 	private OrderDAO orderDAO = new OrderDAO();
 	private OrderItemDAO orderItemDAO = new OrderItemDAO();
+	private ReviewDAO reviewDAO = new ReviewDAO();
 
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -105,7 +109,11 @@ public class IndexServlet extends HttpServlet {
 		case "confirm":
 			confirm(request, response);
 			break;
+		case "toReview":
+			toReview(request, response);
+			break;
 		case "review":
+			review(request, response);
 			break;
 		default:
 			break;
@@ -136,9 +144,12 @@ public class IndexServlet extends HttpServlet {
 		Product p = productDAO.get(pid);
 		productImageDAO.fillImage(p);
 		List<PropertyValue> ppvs = propertyValueDAO.list(p.getId());
+		List<Review> rs = reviewDAO.list(pid);
+		Logger.getLogger("r").info(rs.toString());
 
 		request.setAttribute("p", p);
 		request.setAttribute("theppvs", ppvs);
+		request.setAttribute("thers", rs);
 
 		request.getRequestDispatcher("fore/listProduct.jsp").forward(request, response);
 	}
@@ -337,6 +348,47 @@ public class IndexServlet extends HttpServlet {
 		orderDAO.update(o);
 		request.setAttribute("o", o);
 		request.getRequestDispatcher("fore/confirmSuccess.jsp").forward(request, response);
+	}
+
+	public void toReview(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null) {
+			response.sendRedirect("foreindex");
+			return;
+		}
+		int oid = Integer.parseInt(request.getParameter("oid"));
+		Order o = orderDAO.get(oid);
+		o.setOrderItems(orderItemDAO.list(oid));
+
+		request.setAttribute("o", o);
+		request.getRequestDispatcher("fore/review.jsp").forward(request, response);
+	}
+
+	public void review(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null) {
+			response.sendRedirect("foreindex");
+			return;
+		}
+		Map<String, String> params = new HashMap<String, String>();
+		parseUpload(request, params);
+		int oid = Integer.parseInt(request.getParameter("oid"));
+		String content = params.get("review");
+		Order o = orderDAO.get(oid);
+		List<OrderItem> ois = orderItemDAO.list(oid);
+		for (OrderItem oi : ois) {
+			Review r = new Review();
+			int pid = oi.getProduct().getId();
+			r.setUser(user);
+			r.setContent(content);
+			r.setCreateDate(new Date());
+			r.setProduct(productDAO.get(pid));
+			reviewDAO.add(r);
+		}
+		o.setStatus("已完成");
+		orderDAO.update(o);
+		response.sendRedirect("forelistOrder");
 	}
 
 	public InputStream parseUpload(HttpServletRequest request, Map<String, String> params) {

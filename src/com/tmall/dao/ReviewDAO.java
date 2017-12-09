@@ -117,10 +117,12 @@ public class ReviewDAO {
 
 	public List<Review> list(int pid, int beg, int len) {
 		List<Review> beans = new ArrayList<Review>();
-		String sql = "SELECT * FROM review WHERE pid = ?";
+		String sql = "SELECT * FROM review WHERE pid = ? LIMIT ?, ?";
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, pid);
+			ps.setInt(2, beg);
+			ps.setInt(3, len);
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -130,6 +132,8 @@ public class ReviewDAO {
 				bean.setCreateDate(DateUtil.t2d(rs.getTimestamp("createDate")));
 				bean.setUser(new UserDAO().get(rs.getInt("uid")));
 				bean.setProduct(new ProductDAO().get(rs.getInt("pid")));
+
+				beans.add(bean);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -140,6 +140,7 @@ public class ProductDAO {
 			CategoryDAO categoryDAO = new CategoryDAO();
 			ProductImageDAO productImageDAO = new ProductImageDAO();
 			ReviewDAO reviewDAO = new ReviewDAO();
+			OrderItemDAO orderItemDAO = new OrderItemDAO();
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Product p = new Product();
@@ -156,6 +157,7 @@ public class ProductDAO {
 				p.setProductSingleImages(productImageDAO.list(p.getId(), "single"));
 				p.setProductDetailsImages(productImageDAO.list(p.getId(), "details"));
 				p.setReviewCount(reviewDAO.getTotal(p.getId()));
+				p.setSaleCount(orderItemDAO.getSaleCount(p.getId()));
 
 				ls.add(p);
 			}
@@ -181,6 +183,8 @@ public class ProductDAO {
 
 			CategoryDAO categoryDAO = new CategoryDAO();
 			ProductImageDAO productImageDAO = new ProductImageDAO();
+			ReviewDAO reviewDAO = new ReviewDAO();
+			OrderItemDAO orderItemDAO = new OrderItemDAO();
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Product p = new Product();
@@ -196,6 +200,8 @@ public class ProductDAO {
 				p.setFirstProductImage(productImageDAO.getOneImage(p.getId()));
 				p.setProductSingleImages(productImageDAO.list(p.getId(), "single"));
 				p.setProductDetailsImages(productImageDAO.list(p.getId(), "details"));
+				p.setReviewCount(reviewDAO.getTotal(p.getId()));
+				p.setSaleCount(orderItemDAO.getSaleCount(p.getId()));
 
 				ls.add(p);
 			}

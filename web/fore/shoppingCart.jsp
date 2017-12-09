@@ -80,7 +80,7 @@
 						</div>
 					</td>
 					<td>
-						<a class="delete" href="#1">删除</a>
+						<a class="delete" href="#a" rel="${cart.product.id}">删除</a>
 					</td>
 				</tr>
 			</c:forEach>
@@ -110,7 +110,6 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-body">
        <div class="m-login-input">
 				<strong style="font-size: 18px;">账户登录</strong>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -136,6 +135,26 @@
 				</div>
 				<button id="login"class="login-btn">登录</button>
 			</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">删除分类</h4>
+      </div>
+      <div class="modal-body">
+       <p>删除操作不可逆转</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消删除</button>
+        <button type="button" class="btn btn-primary">
+        	<a id="deleteConfirm" href="" style="color: white;">继续删除</a>
+        </button>
+        <input id="pid" type="hidden" value="" />
       </div>
     </div>
   </div>
@@ -212,9 +231,15 @@
 			countSelected();
 		})
 		$(".delete").click(function() {
+			var pidValue = $(this).prop("rel");
+			$("#pid").val(pidValue);
+			$("#myModa2").modal("show");
+			return false;
+		})
+		$("#deleteConfirm").click(function() {
 			$.post("AjaxServlet", {
 				method: "deleteShoppingCart",
-				pid: $(this).parent().find(".pid").val(),
+				pid: $("#pid").val()
 			}, function() {
 				window.location.reload(true);
 			})
@@ -264,7 +289,7 @@
 			var unitPrice = parseFloat(matches.join(""));
 			var count = parseInt(trDom.find(".countValue").val());
 			var price = unitPrice * count;
-			trDom.find(".price").text(price.toFixed(2).toString());
+			trDom.find(".price").text("￥" + price.toFixed(2).toString());
 			var color = "#FFFFFF";
 
 			if($(this).find(".unselect").css("display") !== "none") {

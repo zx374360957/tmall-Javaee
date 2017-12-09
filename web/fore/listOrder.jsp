@@ -60,18 +60,17 @@
 		<div class="u-orderId">
 			<div style="width: 60%;"><strong><fmt:formatDate type="both" pattern="yyyy-MM-dd HH:mm:ss" value="${o.createDate}" /></strong> 订单号: ${o.orderCode}</div>
 			<div><img src="/tmall/image/site/tmallbuy.png" />天猫商场</div>
-			<a href="">
+			<a href="" rel="${o.id}">
 				<div class="delete glyphicon glyphicon-trash"></div>
-				
 			</a>
 		</div>
 		<div class="u-orderName">
 			<table border="1" cellpadding="10px">
-				<c:forEach items="${o.orderItems}" var="oi">
+				<c:forEach items="${o.orderItems}" var="oi" varStatus="status">
 					<tr>
 						<td style="width: 10%;"><img class="item-img" src="/tmall/image/product/${oi.product.id}/${oi.product.firstProductImage.id}.jpg" /></td>
 						<td class="name" style="width: 50%;">
-							<a href="#1">${oi.product.name}</a>
+							<a href="foreproduct?pid=${oi.product.id}">${oi.product.name}</a>
 							<div>
 								<img src="/tmall/image/site/creditcard.png" />
 								<img src="/tmall/image/site/7day.png" />
@@ -90,7 +89,8 @@
 							<span style="font-size: 12px;">(含运费:￥0.00)</span>
 						</td>
 						<td style="width: 10%;border-left: 1px solid #E6E6E6;">
-							<c:choose>
+							<c:if test="${status.index == 0}">
+								<c:choose>
 							<c:when test="${o.status == '待发货'}">
 								<span>待发货</span>
 							</c:when>
@@ -100,10 +100,14 @@
 							<c:when test="${o.status == '待收货'}">
 								<button class="btn btn-info payment"><a href="foretoConfirm?oid=${o.id}" style="color: white;">确认收货</a></button>
 							</c:when>
+							<c:when test="${o.status == '待评价'}">
+								<button class="btn btn-default review-btn"><a href="foretoReview?oid=${o.id}" style="color: black;">评价</a></button>
+							</c:when>
 							<c:otherwise>
-								<button class="btn btn-default review-btn"><a href="" style="color: black;">评价</a></button>
+								<span>已完成</span>
 							</c:otherwise>
 							</c:choose>
+							</c:if>
 						</td>
 					</tr>
 				</c:forEach>
@@ -125,9 +129,9 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">取消删除</button>
         <button type="button" class="btn btn-primary">
-        	<a id="deleteConfirm" href="#5" style="color: white;">继续删除</a>
+        	<a id="deleteConfirm" href="" style="color: white;">继续删除</a>
         </button>
-        <input type="hidden" value="${o.id}" />
+        <input id="oid" type="hidden" value="" />
       </div>
     </div>
   </div>
@@ -161,7 +165,7 @@
 				}
 			})
 			$("#deleteConfirm").click(function(){
-				var value = $(this).parent().next().val();
+				var value = $("#oid").val();
 				$.post("AjaxServlet",{
 						method: "deleteOrder",
 						oid: value
@@ -169,9 +173,13 @@
 						window.location.reload();
 					}
 				)
+				return false;
 			})
 			$(".delete").click(function(){
+				var oidValue = $(this).parent().prop("rel");
+				$("#oid").val(oidValue);
 				$("#myModal").modal("show");
+				return false;
 			})
 		})
 	</script>

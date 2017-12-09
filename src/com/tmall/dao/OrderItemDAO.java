@@ -31,6 +31,23 @@ public class OrderItemDAO {
 		return total;
 	}
 
+	public int getSaleCount(int pid) {
+		int total = 0;
+		String sql = "SELECT count(*) FROM orderItem WHERE pid = ?";
+		try (Connection c = DBUtil.getConnection()) {
+			PreparedStatement ps = c.prepareStatement(sql);
+			ps.setInt(1, pid);
+
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				total = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return total;
+	}
+
 	public void add(OrderItem bean) {
 		try (Connection c = DBUtil.getConnection()) {
 			String sql = "INSERT INTO orderItem(id, pid, oid, uid, number) VALUES (null, ?, ?, ?, ?)";
@@ -171,4 +188,5 @@ public class OrderItemDAO {
 			add(oi);
 		}
 	}
+
 }

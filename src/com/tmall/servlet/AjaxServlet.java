@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -40,6 +41,9 @@ public class AjaxServlet extends HttpServlet {
 			break;
 		case "deleteOrder":
 			deleteOrder(request, response);
+			break;
+		case "register":
+			register(request, response);
 			break;
 		default:
 			break;
@@ -110,4 +114,30 @@ public class AjaxServlet extends HttpServlet {
 		int oid = Integer.parseInt(request.getParameter("oid"));
 		orderDAO.delete(oid);
 	}
+
+	public void register(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String name = request.getParameter("user");
+		String password = request.getParameter("password");
+		Logger logger = Logger.getLogger("ll");
+		logger.info(name + " " + password);
+		try (PrintWriter out = response.getWriter()) {
+			response.setContentType("text/html; charset=utf-8");
+			response.setHeader("Cache-Control", "no-store");
+			response.setHeader("Pragme", "no-cache");
+			response.setDateHeader("Expires", 0);
+			if (userDAO.get(name) != null) {
+				out.print("fail");
+			} else {
+				User user = new User();
+				user.setName(name);
+				user.setPassword(password);
+				userDAO.add(user);
+				out.print("success");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
