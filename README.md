@@ -12,7 +12,9 @@
 ```
 <Context path="/tmall" docBase="{项目目录}\\web" reloadable="false" />
 ```
-启动 tomcat 后， 在浏览器中输入 ``localhost:8080/tmall/admin ``来访问后台界面
+启动 tomcat 后， 在浏览器中输入 ``localhost:8080/tmall``来访问前台界面，
+在浏览器中输入 ``localhost:8080/tmall/admin ``来访问后台界面
+
 ***
 ### 版本 0.0。3
 完成所有基本功能
