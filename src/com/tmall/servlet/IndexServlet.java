@@ -2,6 +2,7 @@ package com.tmall.servlet;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,62 +63,70 @@ public class IndexServlet extends HttpServlet {
 			session.setAttribute("shoppingCartCount", shoppingCart.size());
 		}
 
-		switch (method) {
-		case "index":
-			index(request, response);
-			break;
-		case "category":
-			category(request, response);
-			break;
-		case "product":
-			product(request, response);
-			break;
-		case "search":
-			search(request, response);
-			break;
-		case "login":
-			request.getRequestDispatcher("fore/login.jsp").forward(request, response);
-			break;
-		case "register":
-			request.getRequestDispatcher("fore/register.jsp").forward(request, response);
-			break;
-		case "logout":
-			session.invalidate();
-			response.sendRedirect("foreindex");
-			break;
-		case "shoppingCart":
-			request.getRequestDispatcher("fore/shoppingCart.jsp").forward(request, response);
-			break;
-		case "toCreateOrder":
-			toCreateOrder(request, response);
-			break;
-		case "createOrder":
-			createOrder(request, response);
-			break;
-		case "toPay":
-			toPay(request, response);
-			break;
-		case "pay":
-			pay(request, response);
-			break;
-		case "listOrder":
-			listOrder(request, response);
-			break;
-		case "toConfirm":
-			toConfirm(request, response);
-			break;
-		case "confirm":
-			confirm(request, response);
-			break;
-		case "toReview":
-			toReview(request, response);
-			break;
-		case "review":
-			review(request, response);
-			break;
-		default:
-			break;
+		try {
+			Method m = this.getClass().getMethod(method, HttpServletRequest.class, HttpServletResponse.class);
+			m.invoke(this, request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
+		// switch (method) {
+		// case "index":
+		// index(request, response);
+		// break;
+		// case "category":
+		// category(request, response);
+		// break;
+		// case "product":
+		// product(request, response);
+		// break;
+		// case "search":
+		// search(request, response);
+		// break;
+		// case "login":
+		// request.getRequestDispatcher("fore/login.jsp").forward(request, response);
+		// break;
+		// case "register":
+		// request.getRequestDispatcher("fore/register.jsp").forward(request, response);
+		// break;
+		// case "logout":
+		// session.invalidate();
+		// response.sendRedirect("foreindex");
+		// break;
+		// case "shoppingCart":
+		// request.getRequestDispatcher("fore/shoppingCart.jsp").forward(request,
+		// response);
+		// break;
+		// case "toCreateOrder":
+		// toCreateOrder(request, response);
+		// break;
+		// case "createOrder":
+		// createOrder(request, response);
+		// break;
+		// case "toPay":
+		// toPay(request, response);
+		// break;
+		// case "pay":
+		// pay(request, response);
+		// break;
+		// case "listOrder":
+		// listOrder(request, response);
+		// break;
+		// case "toConfirm":
+		// toConfirm(request, response);
+		// break;
+		// case "confirm":
+		// confirm(request, response);
+		// break;
+		// case "toReview":
+		// toReview(request, response);
+		// break;
+		// case "review":
+		// review(request, response);
+		// break;
+		// default:
+		// break;
+		// }
 	}
 
 	public void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -152,6 +161,25 @@ public class IndexServlet extends HttpServlet {
 		request.setAttribute("thers", rs);
 
 		request.getRequestDispatcher("fore/listProduct.jsp").forward(request, response);
+	}
+
+	public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("fore/login.jsp").forward(request, response);
+	}
+
+	public void register(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getRequestDispatcher("fore/register.jsp").forward(request, response);
+	}
+
+	public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		session.invalidate();
+	}
+
+	public void shoppingCart(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getRequestDispatcher("fore/shoppingCart.jsp").forward(request, response);
 	}
 
 	public void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
