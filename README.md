@@ -2,25 +2,16 @@
 本项目基于 jsp+servlet+mysql
 ***
 ### 运行环境
-由于本项目是 java project，不能直接在 eclipse 上运行, 需要配置本地 tomcat, 并修改 tomcat 安装目录下 conf/server.xml
-在
-```
-<Host name="localhost"  appBase="webapps"
-            unpackWARs="true" autoDeploy="true">
-```
-下面添加
-```
-<Context path="/tmall" docBase="{项目目录}\\web" reloadable="false" />
-```
-启动 tomcat 后， 在浏览器中输入 ``localhost:8080/tmall``来访问前台界面，
-在浏览器中输入 ``localhost:8080/tmall/admin ``来访问后台界面
+项目已经改为java web项目
 
 ***
-### 版本 0.0.3
+### 更新
+项目改为java web项目， 后台加入权限认证
+### 更新
 完成所有基本功能
 
-### 版本 0.0.2
+### 更新
 后台功能完善
 
-### 版本 0.0.1
+### 创建项目
 已完成大部分后台界面

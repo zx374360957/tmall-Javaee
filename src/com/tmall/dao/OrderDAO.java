@@ -16,7 +16,7 @@ public class OrderDAO {
 
 	public int getTotal() {
 		int total = 0;
-		String sql = "SELECT COUNT(*) FROM `order`";
+		String sql = "SELECT COUNT(*) FROM `orders`";
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 
@@ -34,7 +34,7 @@ public class OrderDAO {
 	}
 
 	public void add(Order bean) {
-		String sql = "INSERT INTO `order` (id, orderCode, address, post, receiver, mobile,"
+		String sql = "INSERT INTO `orders` (id, orderCode, address, post, receiver, mobile,"
 				+ " userMessage, createDate, payDate, deliveryDate, confirmDate, uid, status)"
 				+ "VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection c = DBUtil.getConnection()) {
@@ -65,7 +65,7 @@ public class OrderDAO {
 	}
 
 	public void update(Order bean) {
-		String sql = "UPDATE `order` SET orderCode = ?, address = ?, post = ?, receiver = ?, mobile = ?,"
+		String sql = "UPDATE `orders` SET orderCode = ?, address = ?, post = ?, receiver = ?, mobile = ?,"
 				+ "userMessage = ?, createDate = ?, payDate = ?, deliveryDate = ?,"
 				+ " confirmDate = ?, uid = ?, status = ?" + "WHERE id = ?";
 		try (Connection c = DBUtil.getConnection()) {
@@ -92,7 +92,7 @@ public class OrderDAO {
 	}
 
 	public void delete(int id) {
-		String sql = "DELETE FROM `order` WHERE id = ?";
+		String sql = "DELETE FROM `orders` WHERE id = ?";
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
 			ps.setInt(1, id);
@@ -107,7 +107,7 @@ public class OrderDAO {
 	public Order get(int id) {
 
 		Order bean = null;
-		String sql = "SELECT * FROM `order` WHERE id = ?";
+		String sql = "SELECT * FROM `orders` WHERE id = ?";
 
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
@@ -141,7 +141,7 @@ public class OrderDAO {
 
 	public List<Order> list(int beg, int len) {
 		List<Order> ls = new ArrayList<Order>();
-		String sql = "SELECT * FROM `order` LIMIT ?, ?";
+		String sql = "SELECT * FROM `orders` LIMIT ?, ?";
 
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
@@ -184,7 +184,7 @@ public class OrderDAO {
 
 	public List<Order> list(int uid, int beg, int len) {
 		List<Order> ls = new ArrayList<Order>();
-		String sql = "SELECT * FROM `order` WHERE uid = ? LIMIT ?, ?";
+		String sql = "SELECT * FROM `orders` WHERE uid = ? LIMIT ?, ?";
 
 		try (Connection c = DBUtil.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(sql);
